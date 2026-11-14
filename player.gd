@@ -1,5 +1,11 @@
 extends CharacterBody2D
+const PROJECTILE = preload("res://projectile.tscn")
 
+@onready var shoot_point = $ShootPoint
+
+@export var shoot_cooldown := 1.0
+
+var can_shoot := true
 @export var drift_speed := 120.0      
 @export var thrust := 250.0               
 @export var braking_force := 500.0         
@@ -27,8 +33,9 @@ func _ready():
 
 
 func _physics_process(delta):
-
-	# Dash cooldown
+	if Input.is_action_just_pressed("shoot") and can_shoot:
+		shoot()
+	
 	if !can_dash:
 		cooldown_timer -= delta
 		if cooldown_timer <= 0:
@@ -100,3 +107,18 @@ func flash():
 	sprite.modulate = Color(10, 10, 10, 1)
 	await get_tree().create_timer(0.05).timeout
 	sprite.modulate = Color.WHITE
+	
+func shoot():
+
+	can_shoot = false
+
+	var bullet = PROJECTILE.instantiate()
+
+	get_tree().current_scene.add_child(bullet)
+
+	bullet.global_position = shoot_point.global_position
+	bullet.direction = Vector2.RIGHT
+
+	await get_tree().create_timer(shoot_cooldown).timeout
+
+	can_shoot = true
