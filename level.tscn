@@ -1,3 +1,17 @@
 [gd_scene format=3 uid="uid://dy0f5ttj6htec"]
 
+[ext_resource type="Texture2D" uid="uid://2sngk356ho3b" path="res://df1bb5e08296675badcbfbc29bb8bc3a.png" id="1_vonw3"]
+[ext_resource type="PackedScene" uid="uid://bv31xh4txgy1a" path="res://player.tscn" id="2_oi3di"]
+[ext_resource type="PackedScene" uid="uid://djugwicmbwn0o" path="res://asteroid_spawner.tscn" id="3_oi3di"]
+
 [node name="Level" type="Node2D" unique_id=98936431]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1355720294]
+position = Vector2(262.99994, -85.000015)
+scale = Vector2(3.6093748, 1.7890625)
+texture = ExtResource("1_vonw3")
+
+[node name="player" parent="." unique_id=902640782 instance=ExtResource("2_oi3di")]
+
+[node name="AsteroidSpawner" parent="." unique_id=155121997 instance=ExtResource("3_oi3di")]
+position = Vector2(1763, -4)
