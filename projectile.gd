@@ -5,17 +5,24 @@ extends Area2D
 var direction := Vector2.RIGHT
 
 
-func _physics_process(delta):
-	position += direction * speed * delta
-
-	
-	if position.x > 2000 or position.x < -200:
-		queue_free()
+func _ready() -> void:
+	body_entered.connect(hit)
 
 
-func _on_body_entered(body):
+func _physics_process(delta: float) -> void:
+	# Added missing '*' operators for multiplication
+	global_position += direction * speed  *delta
+
+
+func hit(body: Node2D) -> void:
+	print("Hit:", body.name)
+
 	if body.is_in_group("enemy"):
+		print("Enemy killed")
+
 		if body.has_method("die"):
 			body.die()
 
-		queue_free()
+	# Destroys the bullet upon hitting anything. 
+	# (Make sure your collision layers/masks are set up so bullets only hit enemies/walls!)
+	queue_free()
