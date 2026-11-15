@@ -12,8 +12,9 @@ signal dash_charge_changed(fraction: float) # 0.0 = just used, 1.0 = ready
 signal died
 
 @export_group("Movement")
-## Main overwrites this with its own scroll_speed so both always match.
-@export var cruise_speed := 180.0
+## Speed (px/s) the player drifts right with no input. The camera follows the
+## player, and Main uses this value for enemy drift and the oxygen estimate.
+@export var cruise_speed := 300.0
 @export var vertical_speed := 320.0
 @export var vertical_accel := 900.0
 @export var forward_accel := 900.0
@@ -23,7 +24,7 @@ signal died
 @export var edge_margin := 40.0
 
 @export_group("Dash")
-@export var dash_speed := 950.0
+@export var dash_speed := 800.0
 @export var dash_duration := 0.25
 @export var dash_cooldown := 3.0
 
@@ -138,6 +139,16 @@ func bounce(direction: Vector2) -> void:
 		return
 	_vertical_speed = 0.0
 	_impulse = direction.normalized() * bounce_speed
+
+
+## Kills the player outright, ignoring dash/respawn invincibility.
+## Used by Main when the oxygen runs out.
+func kill() -> void:
+	if dead:
+		return
+	health = 0
+	health_changed.emit(health, max_health)
+	_die()
 
 
 ## Puts the player back at `at` with full health and a short grace period.

@@ -4,8 +4,8 @@ extends Area2D
 ## `stop_distance` away, and fires a bullet at the player every `fire_interval`
 ## seconds (only while on screen). One hit kills it.
 ##
-## The enemy also moves with the camera scroll (scroll_speed, set by Main),
-## otherwise the constantly moving player would simply leave it behind.
+## The enemy also drifts forward at the player's cruise speed (scroll_speed,
+## set by Main), otherwise the constantly moving player would simply leave it behind.
 
 @export var chase_speed := 90.0
 @export var acceleration := 120.0

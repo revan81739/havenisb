@@ -1,7 +1,7 @@
 class_name Ship
 extends Area2D
-## The goal. Main places it at x = level_length. Its collision shape is a tall
-## rectangle so the player can't fly over or under it.
+## The goal. Drag it along the x axis in the 2D editor to set the level length.
+## Its collision shape is a tall rectangle so the player can't fly over or under it.
 
 signal reached
 

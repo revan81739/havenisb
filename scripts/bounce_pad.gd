@@ -1,9 +1,8 @@
 class_name BouncePad
 extends Area2D
-## Cushioned pad. Sits still in the world; when the player touches it he is
-## launched in a completely random direction. Does nothing else.
-
-const DESPAWN_DISTANCE := 1800.0
+## Cushioned pad. Place it by hand in the level (drag scenes/bounce_pad.tscn
+## into the 2D editor); it stays exactly where you put it. When the player
+## touches it he is launched in a completely random direction.
 
 
 func _ready() -> void:
@@ -15,12 +14,6 @@ func _ready() -> void:
 	set_collision_mask_value(Layers.PLAYER, true)
 
 	area_entered.connect(_on_area_entered)
-
-
-func _physics_process(_delta: float) -> void:
-	var cam := get_viewport().get_camera_2d()
-	if cam != null and global_position.distance_to(cam.global_position) > DESPAWN_DISTANCE:
-		queue_free()
 
 
 func _on_area_entered(area: Area2D) -> void:
