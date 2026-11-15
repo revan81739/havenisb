@@ -4,7 +4,9 @@ extends Area2D
 ## when it actually hurts the player. While the player is invincible
 ## (dashing) it simply passes through.
 
-@export var speed := 320.0
+## Lower = easier to dodge. (Was 320.) Remember the player also flies right at
+## cruise speed, so on screen these approach faster than this number.
+@export var speed := 240.0
 @export var lifetime := 6.0
 @export var damage := 1
 

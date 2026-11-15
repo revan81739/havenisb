@@ -1,3 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Keep patch/zip files out of the repo
+*.patch
+*.zip

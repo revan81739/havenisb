@@ -19,10 +19,12 @@ const DIALOGUE_RESOURCE = preload("res://dialogue/level.dialogue")
 @export var end_cue := "level_end"
 
 @export_group("Camera")
-## How far ahead of the player the camera centre sits. Bigger = player sits
-## further to the left of the screen (you see more of what is coming).
+## The camera is locked onto the player on both axes, with no screen edges.
+## This is how far AHEAD of the player (to the right) the camera centre sits.
+## Bigger = player sits further left on screen (you see more of what is coming).
 @export var camera_lead := 400.0
-## How tightly the camera follows the player. Higher = snappier, lower = floatier.
+## How tightly the camera follows. Higher = more rigid (try 20 for a hard lock),
+## lower = floatier. At 6 the player drifts slightly ahead of centre when dashing.
 @export var camera_smoothing := 6.0
 
 @export_group("Level")
@@ -48,7 +50,7 @@ var _enemy_scene: PackedScene = load("res://scenes/flying_enemy.tscn")
 var _asteroid_scene: PackedScene = load("res://scenes/asteroid.tscn")
 
 
-var _camera_start_x := 0.0
+var _camera_start_pos := Vector2.ZERO
 var _finished := false
 var _frozen := false
 
@@ -73,7 +75,7 @@ var _asteroid_timer: Timer
 
 
 func _ready() -> void:
-	_camera_start_x = camera.global_position.x
+	_camera_start_pos = camera.global_position
 
 	player.global_position = player_start.global_position
 
@@ -102,13 +104,12 @@ func _physics_process(delta: float) -> void:
 
 # -------------------------------------------------------------------- camera
 
-## The camera follows the player to the right and never scrolls back, so
-## knockback can still push the player towards the left edge of the screen.
+## The camera follows the player completely (x and y, forwards and backwards),
+## so the player can never reach the edge of the window.
 func _update_camera(delta: float) -> void:
-	var target_x := player.global_position.x + camera_lead
+	var target := player.global_position + Vector2(camera_lead, 0.0)
 	var weight := 1.0 - exp(-camera_smoothing * delta)
-	var followed := lerpf(camera.global_position.x, target_x, weight)
-	camera.global_position.x = maxf(camera.global_position.x, followed)
+	camera.global_position = camera.global_position.lerp(target, weight)
 
 
 # ------------------------------------------------------------------ dialogue
@@ -214,7 +215,7 @@ func _reset_level() -> void:
 	_oxygen_active = false
 	hud.hide_oxygen()
 
-	camera.global_position.x = _camera_start_x # camera first: the player clamps to it
+	camera.global_position = _camera_start_pos # camera first, so it never visibly swoops
 	player.respawn(player_start.global_position)
 
 	# Restart the intervals so the first hazards don't appear instantly.

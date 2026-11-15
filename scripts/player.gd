@@ -20,8 +20,6 @@ signal died
 @export var forward_accel := 900.0
 ## A key: forward speed is multiplied by this while held.
 @export_range(0.0, 1.0) var slow_factor := 0.4
-## How close to the screen edge the player may get.
-@export var edge_margin := 40.0
 
 @export_group("Dash")
 @export var dash_speed := 800.0
@@ -204,16 +202,8 @@ func _update_movement(delta: float) -> void:
 	_impulse = _impulse.lerp(Vector2.ZERO, 1.0 - exp(-impulse_damping * delta))
 
 	var velocity := Vector2(_forward_speed, _vertical_speed) + _impulse
+	# No screen-edge clamp: the camera follows the player, so there is no edge.
 	global_position += velocity * delta
-	_clamp_to_screen()
-
-
-func _clamp_to_screen() -> void:
-	var half := get_viewport_rect().size * 0.5
-	var cam := get_viewport().get_camera_2d()
-	var center := cam.global_position if cam != null else half
-	var margin := Vector2(edge_margin, edge_margin)
-	global_position = global_position.clamp(center - half + margin, center + half - margin)
 
 
 func _update_spin(delta: float) -> void:
