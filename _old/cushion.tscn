@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dwt7oi7v1q2xk"]
+
+[ext_resource type="Script" uid="uid://btwy1wp25v7tf" path="res://_old/cushion.gd" id="1_stain"]
+[ext_resource type="Texture2D" uid="uid://2sngk356ho3b" path="res://assets/df1bb5e08296675badcbfbc29bb8bc3a.png" id="2_v24aa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vyccy"]
+size = Vector2(254, 153)
+
+[node name="Cushion" type="Area2D" unique_id=1801575344]
+script = ExtResource("1_stain")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1513909722]
+position = Vector2(0, 1)
+scale = Vector2(0.27294922, 0.25195313)
+texture = ExtResource("2_v24aa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1246489406]
+shape = SubResource("RectangleShape2D_vyccy")

@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://ctgrpnxv1gam3"]
+
+[ext_resource type="Script" uid="uid://dkoet3k0fvqyc" path="res://_old/flying_enemy.gd" id="1_2t4jl"]
+[ext_resource type="Texture2D" uid="uid://ktovj0p60cgq" path="res://assets/icon.svg" id="1_yp6i7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vyccy"]
+size = Vector2(85, 77)
+
+[node name="FlyingEnemy" type="CharacterBody2D" unique_id=1813047737]
+script = ExtResource("1_2t4jl")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1798785388]
+scale = Vector2(0.7265625, 0.6953125)
+texture = ExtResource("1_yp6i7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2089174979]
+position = Vector2(2.5, -0.5)
+shape = SubResource("RectangleShape2D_vyccy")
+
+[node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=1330613982]
+
+[node name="Timer" type="Timer" parent="." unique_id=1252385069 groups=["enemy"]]
+wait_time = 4.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

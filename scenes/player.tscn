@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://fnrvt14t1db8"]
+
+[ext_resource type="Script" uid="uid://b48pa82h47a8l" path="res://scripts/player.gd" id="1_onrkg"]
+[ext_resource type="Texture2D" uid="uid://bq8lqhgj77yer" path="res://assets/pixil-frame-0.png" id="2_onrkg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hn6kf"]
+size = Vector2(20, 31)
+
+[node name="Player" type="Area2D" unique_id=1041080422]
+script = ExtResource("1_onrkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1677469962]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_hn6kf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1253224011]
+position = Vector2(0, -2.861023e-06)
+scale = Vector2(1.6, 1.52)
+texture = ExtResource("2_onrkg")
+
+[node name="Muzzle" type="Marker2D" parent="Sprite2D" unique_id=2138160339]

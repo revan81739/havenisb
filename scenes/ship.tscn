@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://brk0882m0cdlo"]
+
+[ext_resource type="Script" uid="uid://pkvmxkarkakw" path="res://scripts/ship.gd" id="1_4cq66"]
+[ext_resource type="Texture2D" uid="uid://c7a8egeanglxy" path="res://assets/download (20)-Photoroom.png" id="2_4cq66"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vyccy"]
+size = Vector2(809, 554)
+
+[node name="Ship" type="Area2D" unique_id=1875944730]
+script = ExtResource("1_4cq66")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=853434908]
+position = Vector2(-3.4999943, -4.4999943)
+scale = Vector2(1.1088436, 1.2425629)
+texture = ExtResource("2_4cq66")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=294044096]
+position = Vector2(-0.5, -7)
+shape = SubResource("RectangleShape2D_vyccy")

@@ -1,0 +1,11 @@
+~ level_start
+
+Astronaut: Mission control, my tether snapped! I'm drifting away from the ship.
+Astronaut: Nothing to do but float forward, dodge the rocks, and get back aboard.
+=> END
+
+~ level_end
+
+Astronaut: Airlock sealed. I made it back in one piece!
+Astronaut: Next time, somebody else can do the spacewalk.
+=> END
