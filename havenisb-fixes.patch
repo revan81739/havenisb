@@ -1,0 +1,105 @@
+diff --git a/_old/hhh.gdignore b/_old/.gdignore
+similarity index 100%
+rename from _old/hhh.gdignore
+rename to _old/.gdignore
+diff --git a/project.godot b/project.godot
+index 5f76c99..77b87b8 100644
+--- a/project.godot
++++ b/project.godot
+@@ -60,7 +60,7 @@ ui_down={
+ , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"location":0,"echo":false,"script":null)
+ ]
+ }
+-Dash={
++dash={
+ "deadzone": 0.2,
+ "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"location":0,"echo":false,"script":null)
+ ]
+diff --git a/scenes/enemy_bullet.tscn b/scenes/enemy_bullet.tscn
+index 0561013..2fbb94e 100644
+--- a/scenes/enemy_bullet.tscn
++++ b/scenes/enemy_bullet.tscn
+@@ -43,6 +43,7 @@ animations = [{
+ radius = 12.0
+ 
+ [node name="EnemyBullet" type="Area2D" unique_id=1059818810]
++script = ExtResource("2_mgp66")
+ 
+ [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=319686737]
+ position = Vector2(1.1920929e-07, 0)
+@@ -51,4 +52,3 @@ sprite_frames = SubResource("SpriteFrames_hn6kf")
+ 
+ [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2009329396]
+ shape = SubResource("CircleShape2D_77kos")
+-script = ExtResource("2_mgp66")
+diff --git a/scenes/main.tscn b/scenes/main.tscn
+index bddb1ea..a8363ac 100644
+--- a/scenes/main.tscn
++++ b/scenes/main.tscn
+@@ -7,6 +7,7 @@
+ [ext_resource type="Script" uid="uid://crjpuudm7k27k" path="res://scripts/hud.gd" id="5_ya4ey"]
+ [ext_resource type="Texture2D" uid="uid://dinxdpkbpcfuy" path="res://assets/yellow.png" id="6_eb6dy"]
+ [ext_resource type="Script" uid="uid://bqlvln58iaet" path="res://scripts/crosshair.gd" id="7_trceg"]
++[ext_resource type="PackedScene" uid="uid://brk0882m0cdlo" path="res://scenes/ship.tscn" id="8_ship1"]
+ 
+ [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hn6kf"]
+ bg_color = Color(0.557753, 0.55775315, 0.5577529, 1)
+@@ -20,6 +21,20 @@ bg_color = Color(0, 0.7235517, 0.2564838, 1)
+ bg_color = Color(0.6151851, 0.2096279, 0.22352198, 1)
+ 
+ [node name="Main" type="Node2D" unique_id=645536506]
++script = ExtResource("4_choun")
++start_cue = "level_start"
++end_cue = "level_end"
++scroll_speed = 180.0
++level_length = 12000.0
++spawn_cutoff = 400.0
++spawn_range_y = 300.0
++respawn_delay = 0.8
++enemy_interval = 5.0
++max_enemies = 4
++asteroid_interval = 2.0
++asteroid_speed_min = 220.0
++asteroid_speed_max = 380.0
++pad_interval = 6.0
+ 
+ [node name="Background" type="CanvasLayer" parent="." unique_id=1694416538]
+ layer = -10
+@@ -59,22 +74,10 @@ position = Vector2(800, 0)
+ [node name="PadSpawn" type="Marker2D" parent="Camera2D" unique_id=2085282820]
+ position = Vector2(840, 0)
+ 
++[node name="Ship" parent="." instance=ExtResource("8_ship1")]
++
+ [node name="Player" parent="." unique_id=1041080422 instance=ExtResource("3_85g3d")]
+ position = Vector2(0, 31)
+-script = ExtResource("4_choun")
+-start_cue = "level_start"
+-end_cue = "level_end"
+-scroll_speed = 180.0
+-level_length = 12000.0
+-spawn_cutoff = 400.0
+-spawn_range_y = 300.0
+-respawn_delay = 0.8
+-enemy_interval = 5.0
+-max_enemies = 4
+-asteroid_interval = 2.0
+-asteroid_speed_min = 220.0
+-asteroid_speed_max = 380.0
+-pad_interval = 6.0
+ 
+ [node name="PlayerStart" type="Marker2D" parent="." unique_id=1563266379]
+ position = Vector2(240, 360)
+diff --git a/scripts/main.gd b/scripts/main.gd
+index 174f404..b820162 100644
+--- a/scripts/main.gd
++++ b/scripts/main.gd
+@@ -43,7 +43,7 @@ var _pad_timer: Timer
+ @onready var camera: Camera2D = $Camera2D
+ @onready var player: Player = $Player
+ @onready var ship: Ship = $Ship
+-@onready var hud: GameHUD = $HUD
++@onready var hud: GameHUD = $Hud
+ @onready var player_start: Marker2D = $PlayerStart
+ @onready var enemy_spawn: Marker2D = $Camera2D/EnemySpawn
+ @onready var asteroid_spawn: Marker2D = $Camera2D/AsteroidSpawn

@@ -43,6 +43,7 @@ animations = [{
 radius = 12.0
 
 [node name="EnemyBullet" type="Area2D" unique_id=1059818810]
+script = ExtResource("2_mgp66")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=319686737]
 position = Vector2(1.1920929e-07, 0)
@@ -51,4 +52,3 @@ sprite_frames = SubResource("SpriteFrames_hn6kf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2009329396]
 shape = SubResource("CircleShape2D_77kos")
-script = ExtResource("2_mgp66")

@@ -1,5 +1,10 @@
 extends Node2D
-
+## Level controller.
+## - Scrolls the camera right at `scroll_speed` (the player floats at the same speed).
+## - Spawns asteroids / flying enemies / bounce pads at Marker2D spawn points
+##   that are children of the camera, just off the right edge of the screen.
+## - Shows the start / end dialogue (the game is paused while it is open).
+## - Handles player death (respawn at the start) and reaching the ship.
 
 const CLEAR_GROUPS := ["enemies", "asteroids", "pads", "enemy_bullets", "player_bullets"]
 
@@ -11,11 +16,11 @@ const DIALOGUE_RESOURCE = preload("res://dialogue/level.dialogue")
 
 @export_group("Level")
 @export var scroll_speed := 180.0
-
+## World x of the ship. Level time is roughly (level_length - 240) / scroll_speed seconds.
 @export var level_length := 12000.0
-
+## Nothing spawns closer than this to the ship.
 @export var spawn_cutoff := 400.0
-
+## Spawn height varies by +/- this much around the spawn marker's y.
 @export var spawn_range_y := 300.0
 @export var respawn_delay := 0.8
 
@@ -87,22 +92,7 @@ func _run_intro() -> void:
 	_start_spawning()
 
 
-func _show_dialogue(cue: String) -> void:
-	_set_world_frozen(true)
-	var balloon = DialogueManager.show_dialogue_balloon(DIALOGUE_RESOURCE, cue)
-	if balloon != null:
-		await balloon.tree_exited
-	_set_world_frozen(false)
 
-
-## Same idea as your old level: disable processing instead of pausing the tree.
-func _set_world_frozen(frozen: bool) -> void:
-	_frozen = frozen
-	var mode := Node.PROCESS_MODE_DISABLED if frozen else Node.PROCESS_MODE_INHERIT
-	player.process_mode = mode
-	for group in CLEAR_GROUPS:
-		for node in get_tree().get_nodes_in_group(group):
-			node.process_mode = mode
 
 
 # --------------------------------------------------------------- level flow

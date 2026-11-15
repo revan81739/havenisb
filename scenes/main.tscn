@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://crjpuudm7k27k" path="res://scripts/hud.gd" id="5_ya4ey"]
 [ext_resource type="Texture2D" uid="uid://dinxdpkbpcfuy" path="res://assets/yellow.png" id="6_eb6dy"]
 [ext_resource type="Script" uid="uid://bqlvln58iaet" path="res://scripts/crosshair.gd" id="7_trceg"]
+[ext_resource type="PackedScene" uid="uid://brk0882m0cdlo" path="res://scenes/ship.tscn" id="8_ship1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hn6kf"]
 bg_color = Color(0.557753, 0.55775315, 0.5577529, 1)
@@ -20,6 +21,20 @@ bg_color = Color(0, 0.7235517, 0.2564838, 1)
 bg_color = Color(0.6151851, 0.2096279, 0.22352198, 1)
 
 [node name="Main" type="Node2D" unique_id=645536506]
+script = ExtResource("4_choun")
+start_cue = null
+end_cue = null
+scroll_speed = null
+level_length = null
+spawn_cutoff = null
+spawn_range_y = null
+respawn_delay = null
+enemy_interval = null
+max_enemies = null
+asteroid_interval = null
+asteroid_speed_min = null
+asteroid_speed_max = null
+pad_interval = null
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=1694416538]
 layer = -10
@@ -59,22 +74,10 @@ position = Vector2(800, 0)
 [node name="PadSpawn" type="Marker2D" parent="Camera2D" unique_id=2085282820]
 position = Vector2(840, 0)
 
+[node name="Ship" parent="." unique_id=687472819 instance=ExtResource("8_ship1")]
+
 [node name="Player" parent="." unique_id=1041080422 instance=ExtResource("3_85g3d")]
 position = Vector2(0, 31)
-script = ExtResource("4_choun")
-start_cue = "level_start"
-end_cue = "level_end"
-scroll_speed = 180.0
-level_length = 12000.0
-spawn_cutoff = 400.0
-spawn_range_y = 300.0
-respawn_delay = 0.8
-enemy_interval = 5.0
-max_enemies = 4
-asteroid_interval = 2.0
-asteroid_speed_min = 220.0
-asteroid_speed_max = 380.0
-pad_interval = 6.0
 
 [node name="PlayerStart" type="Marker2D" parent="." unique_id=1563266379]
 position = Vector2(240, 360)
