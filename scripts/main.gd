@@ -26,6 +26,11 @@ const DIALOGUE_RESOURCE = preload("res://dialogue/level.dialogue")
 ## How tightly the camera follows. Higher = more rigid (try 20 for a hard lock),
 ## lower = floatier. At 6 the player drifts slightly ahead of centre when dashing.
 @export var camera_smoothing := 6.0
+## Vertical dodging room: the player can move this many pixels up or down from
+## the screen centre before the camera starts following vertically. Bigger =
+## more room to dodge on screen (keep it under ~250 or fast launches leave the
+## screen). 0 = the camera is glued to the player vertically.
+@export var camera_deadzone_y := 220.0
 
 @export_group("Level")
 ## No hazards spawn within this distance of the Ship.
@@ -104,12 +109,24 @@ func _physics_process(delta: float) -> void:
 
 # -------------------------------------------------------------------- camera
 
-## The camera follows the player completely (x and y, forwards and backwards),
-## so the player can never reach the edge of the window.
+## Horizontally the camera is locked onto the player. Vertically it only
+## follows once the player leaves a dead zone around the screen centre, so W/S
+## really move the player around the screen (room to dodge) instead of just
+## dragging the camera along. There is still no hard limit: go past the dead
+## zone and the camera scrolls with you.
 func _update_camera(delta: float) -> void:
-	var target := player.global_position + Vector2(camera_lead, 0.0)
 	var weight := 1.0 - exp(-camera_smoothing * delta)
-	camera.global_position = camera.global_position.lerp(target, weight)
+	var cam_pos := camera.global_position
+
+	var target_x := player.global_position.x + camera_lead
+
+	var offset_y := player.global_position.y - cam_pos.y
+	var excess_y := offset_y - clampf(offset_y, -camera_deadzone_y, camera_deadzone_y)
+	var target_y := cam_pos.y + excess_y
+
+	camera.global_position = Vector2(
+		lerpf(cam_pos.x, target_x, weight),
+		lerpf(cam_pos.y, target_y, weight))
 
 
 # ------------------------------------------------------------------ dialogue

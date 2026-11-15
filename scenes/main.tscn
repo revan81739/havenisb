@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://dinxdpkbpcfuy" path="res://assets/yellow.png" id="6_eb6dy"]
 [ext_resource type="Script" uid="uid://bqlvln58iaet" path="res://scripts/crosshair.gd" id="7_trceg"]
 [ext_resource type="PackedScene" uid="uid://brk0882m0cdlo" path="res://scenes/ship.tscn" id="8_ship1"]
+[ext_resource type="AudioStream" uid="uid://dalqke2wvi134" path="res://assets/Crusing through the astroid rain.wav" id="9_choun"]
+[ext_resource type="PackedScene" uid="uid://c08yluvcu7ioj" path="res://scenes/bounce_pad.tscn" id="10_ya4ey"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hn6kf"]
 bg_color = Color(0.557753, 0.55775315, 0.5577529, 1)
@@ -65,7 +67,7 @@ position = Vector2(760, 0)
 position = Vector2(800, 0)
 
 [node name="Ship" parent="." unique_id=687472819 instance=ExtResource("8_ship1")]
-position = Vector2(24000, 360)
+position = Vector2(23201, 358)
 
 [node name="Player" parent="." unique_id=1041080422 instance=ExtResource("3_85g3d")]
 position = Vector2(0, 31)
@@ -127,3 +129,25 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_oxyfill")
 max_value = 1.0
 value = 1.0
 show_percentage = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=950887231]
+stream = ExtResource("9_choun")
+autoplay = true
+
+[node name="BouncePad" parent="." unique_id=160578313 instance=ExtResource("10_ya4ey")]
+position = Vector2(502, 557)
+
+[node name="BouncePad2" parent="." unique_id=1318527812 instance=ExtResource("10_ya4ey")]
+position = Vector2(808, 377)
+
+[node name="BouncePad3" parent="." unique_id=242413515 instance=ExtResource("10_ya4ey")]
+position = Vector2(1194, 550)
+
+[node name="BouncePad4" parent="." unique_id=732481352 instance=ExtResource("10_ya4ey")]
+position = Vector2(1854, 173)
+
+[node name="BouncePad5" parent="." unique_id=1338272774 instance=ExtResource("10_ya4ey")]
+position = Vector2(2614, 547)
+
+[node name="BouncePad6" parent="." unique_id=483261205 instance=ExtResource("10_ya4ey")]
+position = Vector2(3075, 241)

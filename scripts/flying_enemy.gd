@@ -7,6 +7,11 @@ extends Area2D
 ## The enemy also drifts forward at the player's cruise speed (scroll_speed,
 ## set by Main), otherwise the constantly moving player would simply leave it behind.
 
+## Enemies further than this from the camera are deleted. Without this, enemies
+## the player outran (or that drifted away while the player was slowed) lived
+## forever and used up Main's max_enemies cap, so no new enemies spawned.
+const DESPAWN_DISTANCE := 1800.0
+
 @export var chase_speed := 90.0
 @export var acceleration := 120.0
 @export var stop_distance := 380.0
@@ -36,6 +41,11 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	var cam := get_viewport().get_camera_2d()
+	if cam != null and global_position.distance_to(cam.global_position) > DESPAWN_DISTANCE:
+		queue_free()
+		return
+
 	var scroll := Vector2(scroll_speed, 0.0)
 
 	# Dying enemies just keep scrolling with the world while they fade out.
